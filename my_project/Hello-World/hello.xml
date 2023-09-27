@@ -1,0 +1,28 @@
+<mujoco model="hello">
+
+    <option timestep="0.01" integrator="RK4" gravity="0 0 -9.81">
+        <flags gravity="false"/>
+    </option>
+
+    <visual>
+        <rgba haze="0.5 0.5 0.5 1"/>
+        <global offwidth="1920" offheight="1080" elevation="-20" azimuth="120"/>
+    </visual>
+
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.4 0.6 0.8" rgb2="0 0 0" width="32" height="512"/>
+        <texture name="grid" type="2d" builtin="checker" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" width="512" height="512"/>
+        <material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance="0.2"/>
+    </asset>
+
+    <default>
+        <default class="body">
+            <geom type="sphere"/>
+        </default>
+    </default>
+    <worldbody>
+        <geom name="floor" size="0 0 0.01" type="plane" material="grid" condim="3"/>
+        <light name="floorlight" mode="fixed" pos="0 0 50" dir="0 0 -1" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3"/>
+    </worldbody>
+
+</mujoco>
