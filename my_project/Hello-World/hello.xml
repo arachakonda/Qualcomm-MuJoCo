@@ -1,7 +1,7 @@
 <mujoco model="hello">
 
     <option timestep="0.01" integrator="RK4" gravity="0 0 -9.81">
-        <flags gravity="false"/>
+        <flag gravity="disable"/>
     </option>
 
     <visual>
