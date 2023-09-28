@@ -1,0 +1,6 @@
+Fri Sep 29 00:32:40 2023
+WARNING: mju_openResource: unknown file '../model/Joints/slider_crank.xml'
+
+Fri Sep 29 00:33:06 2023
+WARNING: mju_openResource: unknown file '../model/Joints/slider_crank.xml'
+

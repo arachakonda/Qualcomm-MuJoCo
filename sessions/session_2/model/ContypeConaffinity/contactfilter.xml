@@ -1,0 +1,29 @@
+<mujoco model="contactfilter">
+    <option timestep="0.01" integrator="RK4" gravity="0 0 -0.81">
+        <flag gravity="enable"/>
+    </option>
+    <visual>
+        <rgba haze="0.5 0.5 0.5 1"/>
+        <global offwidth="1920" offheight="1080" elevation="-20" azimuth="120"/>
+    </visual>
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.4 0.6 0.8" rgb2="0 0 0" width="32" height="512"/>
+        <texture name="grid" type="2d" builtin="checker" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" width="512" height="512"/>
+        <material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance="0.2"/>
+    </asset>
+
+    <worldbody>
+        <geom name="floor" size="0 0 0.01" type="plane" material="grid"/>
+        <light name="floorlight" mode="fixed" pos="0 0 50" dir="0 0 -1" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3"/>
+        <body name="random1" pos="0 0 1.5">
+            <freejoint/>
+            <geom name="geomA" type="box" size="0.1 0.1 0.1" contype="1" conaffinity="6" />
+            <camera name="fixed" pos="0 -.6 .3" xyaxes="1 0 0 0 1 2"/>
+            <camera name="track" pos="0 -.6 .3" xyaxes="1 0 0 0 1 2" mode="track"/>
+        </body>
+        <body name="random2" pos="0 0 2">
+            <freejoint/>
+            <geom name="geomB" type="sphere" size="0.1" contype="6" conaffinity="1" />
+        </body>
+    </worldbody>
+</mujoco>
