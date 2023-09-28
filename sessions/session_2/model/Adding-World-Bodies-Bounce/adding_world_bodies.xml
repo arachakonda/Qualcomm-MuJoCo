@@ -1,7 +1,7 @@
 <mujoco model="hello">
 
     <option timestep="0.01" integrator="RK4" gravity="0 0 -9.81">
-        <flag gravity="disable"/>
+        <flag gravity="enable"/>
     </option>
 
     <visual>
@@ -21,11 +21,11 @@
         </default>
     </default>
     <worldbody>
-        <geom name="floor" size="0 0 0.01" type="plane" material="grid" condim="3"/>
+        <geom name="floor" size="0 0 0.01" type="plane" material="grid" condim="1" solref="1 0.1"/>
         <light name="floorlight" mode="fixed" pos="0 0 50" dir="0 0 -1" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3"/>
         <body name="body" pos="0 0 1.5" childclass="body">
             <freejoint name="root"/>
-            <geom name="body" size="0.25" rgba="1 0 0 1"/>
+            <geom name="body" size="0.25" rgba="1 0 0 1" solref="0.0001 0.001"/>
         </body>
     </worldbody>
 
