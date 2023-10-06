@@ -1,0 +1,109 @@
+<!-- Author: ananth.rachakonda@research.iiit.ac.in-->
+
+<mujoco model="simplified leg">
+    <option timestep="0.005" iterations="50" solver="Newton" integrator="RK4" tolerance="1e-10" gravity="0 0 -9.81"/>
+    <compiler coordinate="global"/>
+    <default>
+        <geom rgba="1 .5 .1 1" size="0.01"/>
+        <motor ctrllimited="true"/>
+        <site type="sphere" rgba=".9 .9 .9 1" size="0.005"/>
+    </default>
+    <visual>
+        <headlight diffuse=".7 .7 .7"/>
+    </visual>
+    <worldbody>
+        <geom name="ground" type="plane" pos="0 0 0" size="1 0.5 2" rgba="1 1 1 1"/>
+        <body name="hip">
+            <geom name="hip_geom" type="box" size="0.1 0.1 0.01" pos="0.09 0 1.10" rgba=".1 .8 .9 .2" density="3000"/>
+            <!--<joint name="hip_free_joint" type="free"/>-->
+            <body name="hip_pitch_motor" pos="0.1 0 0.9"><!--This is the hip pitch motor rotor geom-->
+                <geom name="hip_pitch_motor_stator_geom" type="cylinder" fromto="0.1 -0.02065 0.9 0.1 0.03085 0.9"
+                      size="0.09" rgba=".3 .9 .3 .4"/>
+                <body name="hip_pitch_motor_rotor" pos="0.1 0 0.9">
+                    <geom name="hip_pitch_motor_rotor_geom" type="cylinder" fromto="0.1 -0.03085 0.9 0.1 -0.02065 0.9"
+                          size="0.082" rgba=".3 .9 .3 .7"/>
+                    <joint name="hip_femur_joint" pos="0.1 -0.02575 0.9" range="-90 90" axis="0 1 0" limited="true"
+                           springdamper="0 0" damping="0"/>
+                </body>
+            </body>
+        </body>
+
+        <body name="femur" pos="0.1 0 0.800"><!--This is the start femur section-->
+            <geom name="thigh_plate_medial" type="box" size="0.1 0.005 0.25" pos="0.1 0.050 0.800" rgba=".1 .8 .9 .2"/>
+            <geom name="thigh_plate_lateral" type="box" size="0.1 0.005 0.25" pos="0.1 -0.050 0.800"
+                  rgba=".1 .8 .9 .2"/>
+            <geom name="patella_cruciate" type="box" size="0.005 0.1 0.005" pos="0.145 0 0.41" rgba=".1 .8 .9 .2"/>
+            <joint name="femoral_joint" type="free"/>
+            <body name="knee_pitch_motor_stator" pos="0.1 0 0.7">
+                <geom name="knee_pitch_motor_stator_geom" type="cylinder" fromto="0.1 -0.02065 0.7 0.1 0.03085 0.7"
+                      size="0.09" rgba=".1 .4 .9 .4"/>
+                <body name="knee_pitch_motor_rotor" pos="0.1 0 0.7">
+                    <geom name="knee_pitch_motor_rotor_geom" type="cylinder" fromto="0.1 -0.03085 0.7 0.1 -0.02065 0.7"
+                          size="0.082" rgba=".1 .4 .9 .7"/>
+                    <joint name="crank_rotor_joint" pos="0.1 -0.03085 0.7" range="-180 0" axis="0 1 0" limited="true"
+                           springdamper="0 0" damping="0"/>
+                    <body name="crank" pos="0.029523 -0.03085 0.674348"><!--crank-->
+                        <geom name="crank_geom" type="box" size="0.075 0.005 0.009" pos="0.029523 -0.03085 0.674348"
+                              axisangle="0 1 0 -20" rgba="1 0.2 1 1" contype="0" conaffinity="0"/>
+                        <body><!--coupler-->
+                            <geom name="coupler" type="box" size="0.009 0.005 0.174348"
+                                  pos="-0.040954 -0.03085 0.474348" rgba="1 1 0.4 1"/>
+                            <joint name="coupler_crank_joint" pos="-0.040954 -0.03085 0.648697" range="-90 0" axis="0 1 0" limited="true"
+                                   springdamper="0 0" damping="0"/>
+                            <body name="rocker"><!--rocker-->
+                                <geom name="rocker_geom" type="box" size="0.070477 0.005 0.009"
+                                      pos="0.029523 -0.03085 0.300" rgba="0.6 1 1 1" contype="0" conaffinity="0"/>
+                                <joint name="rocker_coupler_joint" pos="-0.040954 -0.03085 0.300" range="-100 0" axis="0 1 0" limited="true"
+                                       springdamper="0 0"
+                                       damping="0"/>
+                            </body>
+                        </body>
+                    </body>
+                </body><!--end of motor rotor geom-->
+            </body><!--end of motor stator geom-->
+            <body name="femur_revolute" pos="0.1 0 0.51"><!--revolute femur cylinder-->
+                <geom name="femur_revolute_geom" type="cylinder" fromto="0.1 -0.02 0.51 0.1 0.02 0.51" size="0.030"
+                      rgba="1 1 1 0.7"/>
+                <body name="tibia_fibula" pos="0.09 0 0.2700"><!--This is the start of tibia fibula section-->
+                    <geom name="tibia_plate_left" type="box" size="0.05 0.005 0.2" pos="0.09 -0.050 0.2700" rgba=".8 0 .3 .2"/>
+                    <geom name="tibia_plate_right" type="box" size="0.05 0.005 0.2" pos="0.09 0.050 0.2700" rgba=".8 0 .3 .2"/>
+                    <geom name="tibia_medial_condyle" type="cylinder" fromto="0.1 -0.05085 0.51 0.1 -0.03085 0.51" size="0.032"
+                          rgba="1 1 1 0.7"/>
+                    <geom name="tibia_lateral_condyle" type="cylinder" fromto="0.1 0.03085 0.51 0.1 0.05085 0.51" size="0.032"
+                          rgba="1 1 1 0.7"/>
+                    <joint name="tibial_femoral_revolute_joint" type="hinge" pos="0.1 -0.02 0.51" axis="0 1 0"/>
+                    <body><!--This is the knee pitch base 1 motor geom-->
+                        <geom name="knee_anchor_stator" type="cylinder" fromto="0.1 -0.02065 0.3 0.1 0.03085 0.3" size="0.04"
+                              rgba=".5 .9 .5 .7"/>
+                        <body name="knee_anchor_rotor"><!--This is the knee pitch rotor motor geom-->
+                            <geom name="knee_anchor_rotor_geom" type="cylinder" fromto="0.1 -0.03085 0.3 0.1 -0.02065 0.3"
+                                  size="0.032" rgba=".5 .9 .5 .7"/>
+                            <joint name="knee_anchor_rotor_joint" pos="0.1 -0.03085 0.3" range="0 360" axis="0 1 0" limited="true" springdamper="0 0"
+                                   damping="0"/>
+                        </body>
+                        <body name="foot">
+                            <geom name="malleoius" type="cylinder" fromto="0.1 -0.03085 0.035 0.1 0.03085 0.035"
+                                  size="0.030" rgba="1 1 1 1"/>
+                        </body>
+                    </body>
+                </body><!--This is the end of the tibia fibula section-->
+            </body>
+        </body><!-- this is the end of the femur section-->
+
+    </worldbody>
+    <equality>
+        <weld name="crank_knee_pitch_motor_rotor_weld" body1="crank" body2="knee_pitch_motor_rotor"/>
+        <weld name="hip_pitch_motor_stator_hip_weld" body1="hip" body2="hip_pitch_motor"/>
+        <weld name="hip_pitch_motor_rotor_femur_weld" body1="hip_pitch_motor_rotor" body2="femur"/>
+        <weld name="rocker_knee_anchor_rotor_weld" body1="rocker" body2="knee_anchor_rotor"/>
+    </equality>
+    <actuator>
+        <position name="hip_pitch_control" joint="hip_femur_joint" ctrlrange="-10 10" kp="7"/>
+        <position name="knee_pitch_control" joint="crank_rotor_joint" ctrlrange="0 18" kp="10"/>
+        <velocity name="hip_pitch_rate_control" joint="hip_femur_joint" ctrlrange="-10 10" kv="1"/>
+        <velocity name="knee_pitch_rate_control" joint="crank_rotor_joint" ctrlrange="-10 10" kv="1"/>
+    </actuator>
+</mujoco>
+
+
+
